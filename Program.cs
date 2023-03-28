@@ -1,9 +1,22 @@
+using MessageBoardApi.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddDbContext<MessageBoardApiContext>(
+                  dbContextOptions => dbContextOptions
+                    .UseMySql(
+                      builder.Configuration["ConnectionStrings:DefaultConnection"], 
+                      ServerVersion.AutoDetect(builder.Configuration["ConnectionStrings:DefaultConnection"]
+                    )
+                  )
+                );
+          
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
